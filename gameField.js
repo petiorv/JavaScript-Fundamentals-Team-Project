@@ -133,8 +133,12 @@ function init() {
                     gameField[charPos.x][charPos.y - 1] = 'H';
                     direction = 'L';
                     update(direction);
+<<<<<<< HEAD
                 }
                 if (gameField[charPos.x][charPos.y - 1] == 'b' && gameField[charPos.x][charPos.y - 2] != 1) {
+=======
+                } else if (gameField[charPos.x][charPos.y - 1] == 'b' && gameField[charPos.x][charPos.y - 2] == 0) {
+>>>>>>> origin/master
                     gameField[charPos.x][charPos.y] = 0;
                     gameField[charPos.x][charPos.y - 1] = 'H';
                     gameField[charPos.x][charPos.y - 2] = 'b';
@@ -149,8 +153,12 @@ function init() {
                     gameField[charPos.x][charPos.y + 1] = 'H';
                     direction = 'R';
                     update(direction);
+<<<<<<< HEAD
                 }
                 if (gameField[charPos.x][charPos.y + 1] == 'b' && gameField[charPos.x][charPos.y + 2] != 1) {
+=======
+                } else if (gameField[charPos.x][charPos.y + 1] == 'b' && gameField[charPos.x][charPos.y + 2] == 0) {
+>>>>>>> origin/master
                     gameField[charPos.x][charPos.y] = 0;
                     gameField[charPos.x][charPos.y + 1] = 'H';
                     gameField[charPos.x][charPos.y + 2] = 'b';
@@ -164,8 +172,12 @@ function init() {
                     gameField[charPos.x + 1][charPos.y] = 'H';
                     direction = 'D';
                     update(direction);
+<<<<<<< HEAD
                 }
                 if (gameField[charPos.x + 1][charPos.y] == 'b' && gameField[charPos.x + 2][charPos.y] != 1) {
+=======
+                } else if (gameField[charPos.x + 1][charPos.y] == 'b' && gameField[charPos.x+2][charPos.y] == 0) {
+>>>>>>> origin/master
                     gameField[charPos.x][charPos.y] = 0;
                     gameField[charPos.x + 1][charPos.y] = 'H';
                     gameField[charPos.x + 2][charPos.y] = 'b';
@@ -179,8 +191,12 @@ function init() {
                     gameField[charPos.x - 1][charPos.y] = 'H';
                     direction = 'U';
                     update(direction);
+<<<<<<< HEAD
                 }
                 if (gameField[charPos.x - 1][charPos.y] == 'b' && gameField[charPos.x - 2][charPos.y] != 1) {
+=======
+                } else if (gameField[charPos.x - 1][charPos.y] == 'b' && gameField[charPos.x-2][charPos.y] == 0) {
+>>>>>>> origin/master
                     gameField[charPos.x][charPos.y] = 0;
                     gameField[charPos.x - 1][charPos.y] = 'H';
                     gameField[charPos.x - 2][charPos.y] = 'b';
@@ -190,5 +206,6 @@ function init() {
                 break;
         }
     })
-
 }
+
+setInterval(update)
