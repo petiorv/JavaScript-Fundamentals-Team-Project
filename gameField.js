@@ -20,16 +20,16 @@ function init() {
 
     var gameField = [    //----------------------------> X RASTE HORIZONTALNO
         [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],    //  |
-        [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],  //  |
-        [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],    //  |
-        [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],    //  |
+        [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 'X', 1],  //  |
+        [1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1],    //  |
+        [1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1],    //  |
         [1, 0, 0, 0, 0, 0, 0, 'b', 0, 0, 0, 0, 0, 0, 0, 1],    //  |
-        [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],    //  |  Y RASTE NADOLO
-        [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],    //  |
-        [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 'b', 0, 0, 1],    //  |
-        [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],    //  |
-        [1, 0, 0, 0, 0, 'b', 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],    //  |
-        [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],    //  |
+        [1, 0, 1, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 0, 1],    //  |  Y RASTE NADOLO
+        [1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1],    //  |
+        [1, 'X', 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 'b', 0, 0, 1],    //  |
+        [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1],    //  |
+        [1, 0, 0, 0, 0, 'b', 0, 0, 0, 0, 0, 0, 0, 1, 0, 1],    //  |
+        [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 'X', 1],    //  |
         [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]     //  |
     ];
 
@@ -42,6 +42,19 @@ function init() {
 
     function update(direction) {
         ctx.clearRect(0, 0, 800, 600);
+        if (checkIfWin(gameField)) {
+            ctx.drawImage(background, 0, 0, 480, 320, 0, 0, 800, 600);
+            ctx.font = "30px Verdana";
+// Create gradient
+            var gradient = ctx.createLinearGradient(0, 0, canvas.width, 0);
+            gradient.addColorStop("0", "magenta");
+            gradient.addColorStop("0.5", "blue");
+            gradient.addColorStop("1.0", "red");
+// Fill with gradient
+            ctx.fillStyle = gradient;
+            ctx.fillText("CONGRATULATIONS YOU HAVE WON!!!", 150, 250);
+            return;
+        }
         ctx.drawImage(background, 0, 0, 480, 320, 0, 0, 800, 600);
         for (let row = 0; row < gameField.length; row++) {//redove na matrix
             for (let col = 0; col < gameField[row].length; col++) {//koloni na matrix
@@ -89,11 +102,26 @@ function init() {
                 }
 
                 //PROVERKA KYDE TRQBVA DA SE BUTNAT KUTIIKITE
-                // if (gameField[row][col] === 'X') {
-                //     ctx.drawImage(needsToBe, 0, 0, 64, 63, col*BLOCK_HEIGHT, row*BLOCK_WIDTH, BLOCK_HEIGHT, BLOCK_WIDTH)
-                //  }
+                if (gameField[row][col] === 'X') {
+                    ctx.drawImage(needsToBe, 0, 0, 64, 63, col * BLOCK_HEIGHT, row * BLOCK_WIDTH, BLOCK_HEIGHT, BLOCK_WIDTH)
+                }
             }
         }
+    }
+
+
+    //PROVERKA DALI SE PECHELI, HAMALSKATA
+    function checkIfWin(gameField) {
+        //let countX = 0;
+        //console.log(vytre);
+        for (let i = 0; i < gameField.length; i++) {
+            for (let j = 0; j < gameField[i].length; j++) {
+                if (gameField[i][j] == 'X'){
+                return false;
+                }
+            }
+        }
+        return true;
     }
 
     //proverka koe kopche e natisnato
@@ -106,7 +134,7 @@ function init() {
                     direction = 'L';
                     update(direction);
                 }
-                if (gameField[charPos.x][charPos.y - 1] == 'b' && gameField[charPos.x][charPos.y - 2] == 0) {
+                if (gameField[charPos.x][charPos.y - 1] == 'b' && gameField[charPos.x][charPos.y - 2] != 1) {
                     gameField[charPos.x][charPos.y] = 0;
                     gameField[charPos.x][charPos.y - 1] = 'H';
                     gameField[charPos.x][charPos.y - 2] = 'b';
@@ -122,7 +150,7 @@ function init() {
                     direction = 'R';
                     update(direction);
                 }
-                if (gameField[charPos.x][charPos.y + 1] == 'b' && gameField[charPos.x][charPos.y + 2] == 0) {
+                if (gameField[charPos.x][charPos.y + 1] == 'b' && gameField[charPos.x][charPos.y + 2] != 1) {
                     gameField[charPos.x][charPos.y] = 0;
                     gameField[charPos.x][charPos.y + 1] = 'H';
                     gameField[charPos.x][charPos.y + 2] = 'b';
@@ -137,7 +165,7 @@ function init() {
                     direction = 'D';
                     update(direction);
                 }
-                if (gameField[charPos.x + 1][charPos.y] == 'b' && gameField[charPos.x+2][charPos.y] == 0) {
+                if (gameField[charPos.x + 1][charPos.y] == 'b' && gameField[charPos.x + 2][charPos.y] != 1) {
                     gameField[charPos.x][charPos.y] = 0;
                     gameField[charPos.x + 1][charPos.y] = 'H';
                     gameField[charPos.x + 2][charPos.y] = 'b';
@@ -152,7 +180,7 @@ function init() {
                     direction = 'U';
                     update(direction);
                 }
-                if (gameField[charPos.x - 1][charPos.y] == 'b' && gameField[charPos.x-2][charPos.y] == 0) {
+                if (gameField[charPos.x - 1][charPos.y] == 'b' && gameField[charPos.x - 2][charPos.y] != 1) {
                     gameField[charPos.x][charPos.y] = 0;
                     gameField[charPos.x - 1][charPos.y] = 'H';
                     gameField[charPos.x - 2][charPos.y] = 'b';
