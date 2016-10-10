@@ -12,28 +12,30 @@ function init() {
     needsToBe.src = 'images/toBePut.bmp';
     var land = new Image();
     land.src = "images/sprite.png";
+    var box = new Image();
+    box.src = "images/box.bmp";
 
     var canvas = document.getElementById('canvas');
     var ctx = canvas.getContext('2d');
 
     var gameField = [    //----------------------------> X RASTE HORIZONTALNO
         [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],    //  |
-        [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 'X', 1],  //  |
+        [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],  //  |
         [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],    //  |
         [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],    //  |
-        [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],    //  |
+        [1, 0, 0, 0, 0, 0, 0, 'b', 0, 0, 0, 0, 0, 0, 0, 1],    //  |
         [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],    //  |  Y RASTE NADOLO
         [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],    //  |
+        [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 'b', 0, 0, 1],    //  |
         [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],    //  |
-        [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],    //  |
-        [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],    //  |
+        [1, 0, 0, 0, 0, 'b', 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],    //  |
         [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],    //  |
         [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]     //  |
     ];
 
     var charPos = {
-        x: 5,
-        y: 8
+        x: 5, // NAGORE NADOLU
+        y: 8 // NALQVO NADQSNO
     };
 
     var direction = '';
@@ -43,10 +45,7 @@ function init() {
         ctx.drawImage(background, 0, 0, 480, 320, 0, 0, 800, 600);
         for (let row = 0; row < gameField.length; row++) {//redove na matrix
             for (let col = 0; col < gameField[row].length; col++) {//koloni na matrix
-                //PROVERKA KYDE SA STENI
-                if (gameField[row][col] === 1) {
-                    ctx.drawImage(land, 0, 0, 58, 58, col * BLOCK_HEIGHT, row * BLOCK_WIDTH, BLOCK_HEIGHT, BLOCK_WIDTH)
-                }
+
                 //PROVERKA KYDE E GEROQ
                 if (gameField[row][col] === 'H') {
                     ctx.save();
@@ -78,6 +77,17 @@ function init() {
                     charPos.y = col;
                     ctx.restore();
                 }
+
+                //PROVERKA KYDE SA STENI
+                if (gameField[row][col] === 1) {
+                    ctx.drawImage(land, 0, 0, 58, 58, col * BLOCK_HEIGHT, row * BLOCK_WIDTH, BLOCK_HEIGHT, BLOCK_WIDTH)
+                }
+
+                //PROVERKA KYDE SA KUTIIKITE
+                if (gameField[row][col] === 'b') {
+                    ctx.drawImage(box, 0, 0, 65, 65, col * BLOCK_HEIGHT, row * BLOCK_WIDTH, BLOCK_HEIGHT, BLOCK_WIDTH);
+                }
+
                 //PROVERKA KYDE TRQBVA DA SE BUTNAT KUTIIKITE
                 // if (gameField[row][col] === 'X') {
                 //     ctx.drawImage(needsToBe, 0, 0, 64, 63, col*BLOCK_HEIGHT, row*BLOCK_WIDTH, BLOCK_HEIGHT, BLOCK_WIDTH)
@@ -90,34 +100,62 @@ function init() {
     (window).addEventListener('keydown', function (event) {
         switch (event.code) {
             case 'ArrowLeft' :
-                if (gameField[charPos.x][charPos.y - 1] != 1) {
+                if (gameField[charPos.x][charPos.y - 1] == 0) {
                     gameField[charPos.x][charPos.y] = 0;
                     gameField[charPos.x][charPos.y - 1] = 'H';
+                    direction = 'L';
+                    update(direction);
+                }
+                if (gameField[charPos.x][charPos.y - 1] == 'b' && gameField[charPos.x][charPos.y - 2] == 0) {
+                    gameField[charPos.x][charPos.y] = 0;
+                    gameField[charPos.x][charPos.y - 1] = 'H';
+                    gameField[charPos.x][charPos.y - 2] = 'b';
                     direction = 'L';
                     update(direction);
                 }
 
                 break;
             case 'ArrowRight' :
-                if (gameField[charPos.x][charPos.y + 1] != 1) {
+                if (gameField[charPos.x][charPos.y + 1] == 0) {
                     gameField[charPos.x][charPos.y] = 0;
                     gameField[charPos.x][charPos.y + 1] = 'H';
                     direction = 'R';
                     update(direction);
                 }
+                if (gameField[charPos.x][charPos.y + 1] == 'b' && gameField[charPos.x][charPos.y + 2] == 0) {
+                    gameField[charPos.x][charPos.y] = 0;
+                    gameField[charPos.x][charPos.y + 1] = 'H';
+                    gameField[charPos.x][charPos.y + 2] = 'b';
+                    direction = 'R';
+                    update(direction);
+                }
                 break;
             case 'ArrowDown' :
-                if (gameField[charPos.x + 1][charPos.y] != 1) {
+                if (gameField[charPos.x + 1][charPos.y] == 0) {
                     gameField[charPos.x][charPos.y] = 0;
                     gameField[charPos.x + 1][charPos.y] = 'H';
                     direction = 'D';
                     update(direction);
                 }
+                if (gameField[charPos.x + 1][charPos.y] == 'b' && gameField[charPos.x+2][charPos.y] == 0) {
+                    gameField[charPos.x][charPos.y] = 0;
+                    gameField[charPos.x + 1][charPos.y] = 'H';
+                    gameField[charPos.x + 2][charPos.y] = 'b';
+                    direction = 'D';
+                    update(direction);
+                }
                 break;
             case 'ArrowUp' :
-                if (gameField[charPos.x - 1][charPos.y] != 1) {
+                if (gameField[charPos.x - 1][charPos.y] == 0) {
                     gameField[charPos.x][charPos.y] = 0;
                     gameField[charPos.x - 1][charPos.y] = 'H';
+                    direction = 'U';
+                    update(direction);
+                }
+                if (gameField[charPos.x - 1][charPos.y] == 'b' && gameField[charPos.x-2][charPos.y] == 0) {
+                    gameField[charPos.x][charPos.y] = 0;
+                    gameField[charPos.x - 1][charPos.y] = 'H';
+                    gameField[charPos.x - 2][charPos.y] = 'b';
                     direction = 'U';
                     update(direction);
                 }
