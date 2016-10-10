@@ -4,6 +4,7 @@ function init() {
     background.src = 'images/background.png';
     var mainCharImg = new Image();
     mainCharImg.src = 'images/mainCharacter.gif';
+    var needsToBe = new Image();
     var canvas = document.getElementById('canvas');
     var ctx = canvas.getContext('2d');
     var matrix = [
@@ -37,9 +38,14 @@ function init() {
                     ctx.drawImage(land, 0, 0, 58, 58, i * 50, j * 50, 50, 50)
                 }
                 if (matrix[j][i] === 'H') {
-                    ctx.drawImage(mainCharImg, 0, 0, 64, 64, i * 50, j * 50, 50, 50)
+                    ctx.save();
+                    //ctx.translate(i*50+50, j*50);
+                    //ctx.rotate(Math.PI/2);
+                    ctx.drawImage(mainCharImg, 0, 0, 64, 64, 0, 0, 50, 50)
                     charPos.x = j;
                     charPos.y = i;
+                    ctx.restore();
+                    ctx.strokeRect(charPos.y*50,charPos.x*50,50, 50);
                 }
             }
         }
