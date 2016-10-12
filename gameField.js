@@ -5,6 +5,10 @@ function main(endGameMsg) {
     var ctx = canvas.getContext('2d');
     var score = 0;
     var startSrc = new Image();
+    var looser = new Image();
+    var winner =  new Image();
+    winner.src = 'images/levelWin.jpg';
+    looser.src = 'images/looser.jpg';
     startSrc.src = 'images/startScreen.jpg';
     var background = new Image();
     background.src = 'images/background.png';
@@ -40,22 +44,40 @@ function main(endGameMsg) {
     var blockHeight = canvas.width / gameField[0].length;
 
 //END DEFINE GLOBAL VARABLES
-
+    console.log(endGameMsg);
 
 //DRAW MAIN MENU
-    if (endGameMsg != undefined) {
 
+    if(endGameMsg==='lose'){
+        ctx.drawImage(looser, 0, 0);
+        (window).addEventListener('click', function (event) {
+            if (event.clientX >= 276 && event.clientX <= 509)
+                if (event.clientY >= 244 && event.clientY <= 327) {
+                    init();
+                }
+        });
+    }else if (endGameMsg=='win'){
+        ctx.drawImage(winner, 0, 0);
+        (window).addEventListener('click', function (event) {
+            if (event.clientX >= 276 && event.clientX <= 509)
+                if (event.clientY >= 244 && event.clientY <= 327) {
+                    init();
+                }
+        });
+    }else {
+        ctx.drawImage(startSrc, 0, 0);
+        (window).addEventListener('click', function (event) {
+            if (event.clientX >= 276 && event.clientX <= 509)
+                if (event.clientY >= 244 && event.clientY <= 327) {
+                    init();
+                }
+        });
     }
 
 
+
 //BUTTON CLICKED
-    ctx.drawImage(startSrc, 0, 0);
-    (window).addEventListener('click', function (event) {
-        if (event.clientX >= 276 && event.clientX <= 509)
-            if (event.clientY >= 244 && event.clientY <= 327) {
-                init();
-            }
-    });
+
     function init() {
         //DEFINE CHARACTER STARTING POSITION AND STARTER DIRECTION
         var charPos = {
@@ -71,7 +93,8 @@ function main(endGameMsg) {
         function render(direction) {
             ctx.clearRect(0, 0, 800, 600);
             if (checkIfWin(gameField)) {
-                main('Congarulations you have won');
+
+                setTimeout(main('win'), 200);
                 gameField = undefined;
             }
             ctx.drawImage(background, 0, 0, 480, 320, 0, 0, 800, 600);
@@ -474,16 +497,19 @@ function main(endGameMsg) {
                     return nextTilesObj;
                 }  //PROVERQVA SLEDVASHTITE POZICII, VRYSHTA OBEKT
                 ctx.font = "40px Georgia";
-                ctx.fillText(`${score}`, 10, 35);
+                ctx.fillText(`Score : ${score}`, 10, 35);
             });
         }
 
         function handleGameOver(wayOfLosing) {
             switch (wayOfLosing) {
                 case 'lose' :
+
                     ctx.clearRect(0, 0, 800, 600);
+
                     gameField = undefined;  //TODO FIX STILL RUNNING INIT FUNCTION
-                    main();
+
+                    main('lose');
                     break;
             }
         }
