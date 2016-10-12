@@ -4,6 +4,8 @@ function main(endGameMsg) {
     var canvas = document.getElementById('canvas');
     var ctx = canvas.getContext('2d');
     var score = 0;
+    var startSrc = new Image();
+    startSrc.src = 'images/startScreen.jpg';
     var background = new Image();
     background.src = 'images/background.png';
     var mainCharImg = new Image();
@@ -44,16 +46,13 @@ function main(endGameMsg) {
     if (endGameMsg != undefined) {
 
     }
-    ctx.strokeRect(100, 100, 300, 100);
-    ctx.font = '30px ariel';
-//ctx.textAlign = 'center';
-    ctx.fillText('Start game', 180, 150);
 
 
 //BUTTON CLICKED
+    ctx.drawImage(startSrc, 0, 0);
     (window).addEventListener('click', function (event) {
-        if (event.clientX >= 111 && event.clientX <= 411)
-            if (event.clientY >= 111 && event.clientY <= 211) {
+        if (event.clientX >= 276 && event.clientX <= 509)
+            if (event.clientY >= 244 && event.clientY <= 327) {
                 init();
             }
     });
