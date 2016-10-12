@@ -1,10 +1,14 @@
 $(document).ready(main);
-function main(endGameMsg, level) {
+function main(endGameMsg) {
     //DEFINE ALL GLOBAL VARIABLES
     var canvas = document.getElementById('canvas');
     var ctx = canvas.getContext('2d');
     var score = 0;
     var startSrc = new Image();
+    var looser = new Image();
+    var winner =  new Image();
+    winner.src = 'images/levelWin.jpg';
+    looser.src = 'images/looser.jpg';
     startSrc.src = 'images/startScreen.jpg';
     var background = new Image();
     background.src = 'images/background.png';
@@ -20,7 +24,8 @@ function main(endGameMsg, level) {
     waterTile.src = "images/water.gif";
     var waterWall = new Image();
     waterWall.src = "images/waterroad.bmp";
-    var levels = [[
+    var levels = [
+        [
             [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
             [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 'X', 1],
             [1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1],
@@ -34,37 +39,49 @@ function main(endGameMsg, level) {
             [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1],
             [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 'X', 1],
             [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
-        ]
-    ];
-//END DEFINE GLOBAL VARABLES
-
-
-//DRAW MAIN MENU
-    var gameField;
-    if (level != undefined){
-        gameField = levels[level];
-        if(gameField == undefined){
-            ctx.fillText('GG YOU  BEAT THE GAME', 200, 200);
-        }
-    }
-    else if (level == undefined)
-        gameField = levels[0];
-    if (endGameMsg != undefined && gameField != undefined) {
-        ctx.font = '36px, ariel';
-        ctx.fillText(endGameMsg + score ,200, 200);
-    }
+        ],
+    ]
+    var gameField = levels[0];
     var blockWidth = canvas.height / gameField.length;
     var blockHeight = canvas.width / gameField[0].length;
-    ctx.drawImage(startSrc, 0, 0);
-    (window).addEventListener('click', function (event) {
-        if (event.clientX >= 276 && event.clientX <= 509)
-            if (event.clientY >= 244 && event.clientY <= 327) {
-                init(level);
-            }
-    });
-    function init(level) {
+
+//END DEFINE GLOBAL VARABLES
+    console.log(endGameMsg);
+
+//DRAW MAIN MENU
+
+    if(endGameMsg === 'lose'){
+        ctx.drawImage(looser, 0, 0);
+        (window).addEventListener('click', function (event) {
+            if (event.clientX >= 276 && event.clientX <= 509)
+                if (event.clientY >= 244 && event.clientY <= 327) {
+                    init();
+                }
+        });
+    }else if (endGameMsg === 'win'){
+        ctx.drawImage(winner, 0, 0);
+        (window).addEventListener('click', function (event) {
+            if (event.clientX >= 276 && event.clientX <= 509)
+                if (event.clientY >= 244 && event.clientY <= 327) {
+                    init();
+                }
+        });
+    }else {
+        ctx.drawImage(startSrc, 0, 0);
+        (window).addEventListener('click', function (event) {
+            if (event.clientX >= 276 && event.clientX <= 509)
+                if (event.clientY >= 244 && event.clientY <= 327) {
+                    init();
+                }
+        });
+    }
+
+
+
+//BUTTON CLICKED
+
+    function init() {
         //DEFINE CHARACTER STARTING POSITION AND STARTER DIRECTION
-        var currentLevel = level;
         var charPos = {
             x: 4, // NAGORE NADOLU
             y: 8 // NALQVO NADQSNO
@@ -78,8 +95,10 @@ function main(endGameMsg, level) {
         function render(direction) {
             ctx.clearRect(0, 0, 800, 600);
             if (checkIfWin(gameField)) {
-                main('Congarulations you have won',currentLevel+1);
+
+                setTimeout(main('win'), 200);
                 gameField = undefined;
+                return;
             }
             ctx.drawImage(background, 0, 0, 480, 320, 0, 0, 800, 600);
             for (let row = 0; row < gameField.length; row++) {//redove na matrix
@@ -88,6 +107,8 @@ function main(endGameMsg, level) {
                     //PROVERKA KYDE E GEROQ
                     if (gameField[row][col] === 'H') {
                         ctx.save();
+                        console.log(charPos);
+                        console.log(direction);
                         //PROVERKA NAKKYDE SE DVIJI
                         switch (direction) {
                             case 'R' :
@@ -479,16 +500,19 @@ function main(endGameMsg, level) {
                     return nextTilesObj;
                 }  //PROVERQVA SLEDVASHTITE POZICII, VRYSHTA OBEKT
                 ctx.font = "40px Georgia";
-                ctx.fillText(`${score}`, 10, 35);
+                ctx.fillText(`Score : ${score}`, 10, 35);
             });
         }
 
         function handleGameOver(wayOfLosing) {
             switch (wayOfLosing) {
                 case 'lose' :
+
                     ctx.clearRect(0, 0, 800, 600);
+
                     gameField = undefined;  //TODO FIX STILL RUNNING INIT FUNCTION
-                    main();
+
+                    main('lose');
                     break;
             }
         }
