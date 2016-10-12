@@ -1,9 +1,11 @@
 $(document).ready(main);
-function main(endGameMsg) {
+function main(endGameMsg, level) {
     //DEFINE ALL GLOBAL VARIABLES
     var canvas = document.getElementById('canvas');
     var ctx = canvas.getContext('2d');
     var score = 0;
+    var startSrc = new Image();
+    startSrc.src = 'images/startScreen.jpg';
     var background = new Image();
     background.src = 'images/background.png';
     var mainCharImg = new Image();
@@ -18,47 +20,51 @@ function main(endGameMsg) {
     waterTile.src = "images/water.gif";
     var waterWall = new Image();
     waterWall.src = "images/waterroad.bmp";
-
-    var gameField = [    //----------------------------> X RASTE HORIZONTALNO
-        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],    //  |
-        [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 'X', 1],  //  |
-        [1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1],    //  |
-        [1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1],    //  |
-        [1, 0, 0, 0, 0, 0, 0, 'b', 0, 0, 0, 0, 0, 0, 0, 1],    //  |
-        [1, 0, 1, 0, 0, 0, 0, 1, 'H', 1, 1, 1, 1, 1, 0, 1],    //  |  Y RASTE NADOLO
-        [1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1],    //  |
-        [1, 'X', 1, 0, 0, 0, 0, 'w', 0, 0, 0, 0, 'b', 0, 0, 1],    //  |
-        [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1],    //  |
-        [1, 0, 0, 0, 0, 'b', 0, 0, 0, 0, 0, 0, 0, 1, 0, 1],    //  |
-        [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1],
-        [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 'X', 1],//  |
-        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]     //  |
+    var levels = [[
+            [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+            [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 'X', 1],
+            [1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1],
+            [1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1],
+            [1, 0, 0, 0, 0, 0, 0, 'b', 0, 0, 0, 0, 0, 0, 0, 1],
+            [1, 0, 1, 0, 0, 0, 0, 1, 'H', 1, 1, 1, 1, 1, 0, 1],
+            [1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1],
+            [1, 'X', 1, 0, 0, 0, 0, 'w', 0, 0, 0, 0, 'b', 0, 0, 1],
+            [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1],
+            [1, 0, 0, 0, 0, 'b', 0, 0, 0, 0, 0, 0, 0, 1, 0, 1],
+            [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1],
+            [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 'X', 1],
+            [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
+        ]
     ];
-    var blockWidth = canvas.height / gameField.length;
-    var blockHeight = canvas.width / gameField[0].length;
-
 //END DEFINE GLOBAL VARABLES
 
 
 //DRAW MAIN MENU
-    if (endGameMsg != undefined) {
-
+    var gameField;
+    if (level != undefined){
+        gameField = levels[level];
+        if(gameField == undefined){
+            ctx.fillText('GG YOU  BEAT THE GAME', 200, 200);
+        }
     }
-    ctx.strokeRect(100, 100, 300, 100);
-    ctx.font = '30px ariel';
-//ctx.textAlign = 'center';
-    ctx.fillText('Start game', 180, 150);
-
-
-//BUTTON CLICKED
+    else if (level == undefined)
+        gameField = levels[0];
+    if (endGameMsg != undefined && gameField != undefined) {
+        ctx.font = '36px, ariel';
+        ctx.fillText(endGameMsg + score ,200, 200);
+    }
+    var blockWidth = canvas.height / gameField.length;
+    var blockHeight = canvas.width / gameField[0].length;
+    ctx.drawImage(startSrc, 0, 0);
     (window).addEventListener('click', function (event) {
-        if (event.clientX >= 111 && event.clientX <= 411)
-            if (event.clientY >= 111 && event.clientY <= 211) {
-                init();
+        if (event.clientX >= 276 && event.clientX <= 509)
+            if (event.clientY >= 244 && event.clientY <= 327) {
+                init(level);
             }
     });
-    function init() {
+    function init(level) {
         //DEFINE CHARACTER STARTING POSITION AND STARTER DIRECTION
+        var currentLevel = level;
         var charPos = {
             x: 4, // NAGORE NADOLU
             y: 8 // NALQVO NADQSNO
@@ -72,7 +78,7 @@ function main(endGameMsg) {
         function render(direction) {
             ctx.clearRect(0, 0, 800, 600);
             if (checkIfWin(gameField)) {
-                main('Congarulations you have won');
+                main('Congarulations you have won',currentLevel+1);
                 gameField = undefined;
             }
             ctx.drawImage(background, 0, 0, 480, 320, 0, 0, 800, 600);
@@ -82,8 +88,6 @@ function main(endGameMsg) {
                     //PROVERKA KYDE E GEROQ
                     if (gameField[row][col] === 'H') {
                         ctx.save();
-                        console.log(charPos);
-                        console.log(direction);
                         //PROVERKA NAKKYDE SE DVIJI
                         switch (direction) {
                             case 'R' :
