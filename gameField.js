@@ -15,6 +15,7 @@ function main(howTheGameEnded) {
     function init() {
 
         //KARTINKI
+        var score = 0;
         var background = new Image();
         background.src = 'images/background.png';
         var mainCharImg = new Image();
@@ -164,10 +165,18 @@ function main(howTheGameEnded) {
                             update(direction);
                         }
                         else if (nextTiles.next == 'box'
-                            && (nextTiles.secondNext == 'empty' || nextTiles.secondNext == 'hole')) {
+                            && (nextTiles.secondNext == 'empty')) {
                             gameField[charPos.x][charPos.y] = 0;
                             gameField[charPos.x][charPos.y - 1] = 'H';
                             gameField[charPos.x][charPos.y - 2] = 'b';
+                            direction = 'L';
+                            update(direction);
+                        } 
+                        else if (nextTiles.next == 'box' && nextTiles.secondNext == 'hole') {
+                            gameField[charPos.x][charPos.y] = 0;
+                            gameField[charPos.x][charPos.y - 1] = 'H';
+                            gameField[charPos.x][charPos.y - 2] = 0;
+                            score += 50;
                             direction = 'L';
                             update(direction);
                         }
@@ -191,10 +200,17 @@ function main(howTheGameEnded) {
                             update(direction);
                         }
                         else if (nextTiles.next == 'box'
-                            && (nextTiles.secondNext == 'empty' || nextTiles.secondNext == 'hole')) {
+                            && (nextTiles.secondNext == 'empty')) {
                             gameField[charPos.x][charPos.y] = 0;
                             gameField[charPos.x][charPos.y + 1] = 'H';
                             gameField[charPos.x][charPos.y + 2] = 'b';
+                            direction = 'R';
+                            update(direction);
+                        } else if (nextTiles.next == 'box' && nextTiles.secondNext == 'hole') {
+                            gameField[charPos.x][charPos.y] = 0;
+                            gameField[charPos.x][charPos.y + 1] = 'H';
+                            gameField[charPos.x][charPos.y + 2] = 0;
+                            score += 50;
                             direction = 'R';
                             update(direction);
                         }
@@ -218,10 +234,18 @@ function main(howTheGameEnded) {
                             update(direction);
                         }
                         else if (nextTiles.next == 'box'
-                            && (nextTiles.secondNext == 'empty' || nextTiles.secondNext == 'hole')) {
+                            && (nextTiles.secondNext == 'empty')) {
                             gameField[charPos.x][charPos.y] = 0;
                             gameField[charPos.x + 1][charPos.y] = 'H';
                             gameField[charPos.x + 2][charPos.y] = 'b';
+                            direction = 'D';
+                            update(direction);
+                        }
+                        else if (nextTiles.next == 'box' && nextTiles.secondNext == 'hole') {
+                            gameField[charPos.x][charPos.y] = 0;
+                            gameField[charPos.x + 1][charPos.y] = 'H';
+                            gameField[charPos.x + 2][charPos.y] = 0;
+                            score += 50;
                             direction = 'D';
                             update(direction);
                         }
@@ -245,11 +269,19 @@ function main(howTheGameEnded) {
                             update(direction);
                         }
                         else if (nextTiles.next == 'box'
-                            && (nextTiles.secondNext == 'empty' || nextTiles.secondNext == 'hole')) {
+                            && (nextTiles.secondNext == 'empty')) {
                             gameField[charPos.x][charPos.y] = 0;
                             gameField[charPos.x - 1][charPos.y] = 'H';
                             gameField[charPos.x - 2][charPos.y] = 'b';
                             direction = 'U';
+                            update(direction);
+                        }
+                        else if (nextTiles.next == 'box' && nextTiles.secondNext == 'hole') {
+                            gameField[charPos.x][charPos.y] = 0;
+                            gameField[charPos.x - 1][charPos.y] = 'H';
+                            gameField[charPos.x - 2][charPos.y] = 0;
+                            score += 50;
+                            direction = 'L';
                             update(direction);
                         }
                         else if (nextTiles.next == 'box' && nextTiles.secondNext == 'water') {
@@ -438,6 +470,8 @@ function main(howTheGameEnded) {
                     }
                     return nextTilesObj;
                 }  //PROVERQVA SLEDVASHTITE POZICII, VRYSHTA OBEKT
+                ctx.font="40px Georgia";
+                ctx.fillText(`${score}`,10,35);
             });
         }
         else{
