@@ -1,5 +1,5 @@
 $(document).ready(main);
-function main(endGameMsg) {
+function main(endGameMsg, level) {
     //DEFINE ALL GLOBAL VARIABLES
     var canvas = document.getElementById('canvas');
     var ctx = canvas.getContext('2d');
@@ -28,7 +28,7 @@ function main(endGameMsg) {
     var levels = [
         [
             [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-            [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 'X', 1],
+            [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
             [1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1],
             [1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1],
             [1, 0, 0, 0, 0, 0, 0, 'b', 0, 0, 0, 0, 0, 0, 0, 1],
@@ -38,28 +38,23 @@ function main(endGameMsg) {
             [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1],
             [1, 0, 0, 0, 0, 'b', 0, 0, 0, 0, 0, 0, 0, 1, 0, 1],
             [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1],
-            [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 'X', 1],
+            [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1],
             [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
         ],
-    ]
-    var gameField = levels[0];
-
-
-    var gameField = [    //----------------------------> X RASTE HORIZONTALNO
-        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],    //  |
-        [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 'X', 1],  //  |
-        [1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1],    //  |
-        [1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1],    //  |
-        [1, 0, 0, 0, 0, 0, 0, 'b', 0, 0, 0, 0, 0, 0, 0, 1],    //  |
-        [1, 0, 1, 0, 0, 0, 0, 1, 'H', 1, 1, 1, 1, 1, 0, 1],    //  |  Y RASTE NADOLO
-        [1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1],    //  |
-        [1, 'X', 1, 0, 0, 0, 0, 'w', 0, 0, 0, 0, 'b', 0, 0, 1],    //  |
-        [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1],    //  |
-        [1, 0, 0, 0, 0, 'b', 0, 0, 0, 0, 0, 0, 0, 1, 0, 1],    //  |
-        [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1],
-        [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 'X', 1],//  |
-        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]     //  |
+        [[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+            [1, 'X', 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 'X', 1, 1],
+            [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 'X', 0, 1, 0, 1, 1],
+            [1, 0, 1, 0, 0, 0, 0, 1, 1, 1, 1, 0, 1, 0, 1, 1],
+            [1, 0, 1, 0, 0, 1, 'b', 1, 1, 1, 1, 0, 1, 0, 1, 1],
+            [1, 0, 1, 0, 1, 'w', 0, 'w', 'H', 1, 1, 0, 0, 0, 1, 1],
+            [1, 0,'b', 0, 1, 'w', 0, 'w', 0, 0, 1, 0, 0, 0, 1, 1],
+            [1, 0, 'w', 1, 1, 0, 0, 0, 0, 'b', 1, 0, 0, 'w', 'w', 1],
+            [1, 0, 'w', 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 'w', 'w', 1],
+            [1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 'w', 'w', 1],
+            [1, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+            [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]],
     ];
+    var gameField = levels[0];
 
     var blockWidth = canvas.height / gameField.length;
     var blockHeight = canvas.width / gameField[0].length;
@@ -71,12 +66,13 @@ function main(endGameMsg) {
 
 
     if (endGameMsg === 'lose') {
-
+        location.reload()
+        level = 0;
         ctx.drawImage(looser, 0, 0);
         (window).addEventListener('click', function (event) {
             if (event.clientX >= 276 && event.clientX <= 509)
                 if (event.clientY >= 244 && event.clientY <= 327) {
-                    init();
+                    init(level);
                 }
         });
 
@@ -88,15 +84,24 @@ function main(endGameMsg) {
         (window).addEventListener('click', function (event) {
             if (event.clientX >= 276 && event.clientX <= 509)
                 if (event.clientY >= 244 && event.clientY <= 327) {
-                    init();
-                }
+                    console.log(level);
+                    gameField = levels[level];
+                    console.log(gameField[level]);
+                    init(level);
+                                    }
         });
-    } else {
+        if (event.clientX >= 276 && event.clientX <= 509)
+            if (event.clientY >= 340 && event.clientY <= 430) {
+                init(level);
+            }
+    }
+     else {
+         level = 0;
         ctx.drawImage(startSrc, 0, 0);
         (window).addEventListener('click', function (event) {
             if (event.clientX >= 276 && event.clientX <= 509)
                 if (event.clientY >= 244 && event.clientY <= 327) {
-                    init();
+                    init(level);
                 }
         });
     }
@@ -104,7 +109,8 @@ function main(endGameMsg) {
 
 //BUTTON CLICKED
 
-    function init() {
+    function init(level) {
+        let nextLvl = Number(level) + 1;
         //DEFINE CHARACTER STARTING POSITION AND STARTER DIRECTION
         var charPos = {
             x: 4, // NAGORE NADOLU
@@ -119,8 +125,8 @@ function main(endGameMsg) {
         function render(direction) {
             ctx.clearRect(0, 0, 800, 600);
             if (checkIfWin(gameField)) {
-
-                setTimeout(main('win'), 200);
+                console.log(nextLvl);
+                main('win', nextLvl);
                 gameField = undefined;
                 return;
             }
@@ -131,8 +137,6 @@ function main(endGameMsg) {
                     //PROVERKA KYDE E GEROQ
                     if (gameField[row][col] === 'H') {
                         ctx.save();
-                        console.log(charPos);
-                        console.log(direction);
                         //PROVERKA NAKKYDE SE DVIJI
                         switch (direction) {
                             case 'R' :
