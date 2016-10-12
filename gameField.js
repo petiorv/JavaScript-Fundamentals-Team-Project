@@ -39,7 +39,7 @@ function main(howTheGameEnded) {
             [1, 0, 0, 0, 0, 0, 0, 'b', 0, 0, 0, 0, 0, 0, 0, 1],    //  |
             [1, 0, 1, 0, 0, 0, 0, 1, 'H', 1, 1, 1, 1, 1, 0, 1],    //  |  Y RASTE NADOLO
             [1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1],    //  |
-            [1, 'X', 1, 0, 0, 0, 0, 'w', 'w', 0, 0, 0, 'b', 0, 0, 1],    //  |
+            [1, 'X', 1, 0, 0, 0, 0, 'w', 0, 0, 0, 0, 'b', 0, 0, 1],    //  |
             [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1],    //  |
             [1, 0, 0, 0, 0, 'b', 0, 0, 0, 0, 0, 0, 0, 1, 0, 1],    //  |
             [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1],
@@ -222,7 +222,7 @@ function main(howTheGameEnded) {
                             update(direction);
                         }
                         else if (nextTiles.next == 'water') {
-                            //TODO GAME OVER
+                            handleGameOver('lose');
                         }
                         break;
                     case 'ArrowDown' :
@@ -257,7 +257,7 @@ function main(howTheGameEnded) {
                             update(direction);
                         }
                         else if (nextTiles.next == 'water') {
-                            //TODO GAME OVER
+                            handleGameOver('lose');
                         }
                         break;
                     case 'ArrowUp' :
@@ -292,7 +292,7 @@ function main(howTheGameEnded) {
                             update(direction);
                         }
                         else if (nextTiles.next == 'water') {
-                            //TODO GAME OVER
+                            handleGameOver('lose');
                         }
                         break;
                 }
