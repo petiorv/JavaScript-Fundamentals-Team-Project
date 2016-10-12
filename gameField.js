@@ -6,7 +6,7 @@ function main(endGameMsg) {
     var score = 0;
     var startSrc = new Image();
     var looser = new Image();
-    var winner =  new Image();
+    var winner = new Image();
     winner.src = 'images/levelWin.jpg';
     looser.src = 'images/looser.jpg';
     startSrc.src = 'images/startScreen.jpg';
@@ -24,6 +24,7 @@ function main(endGameMsg) {
     waterTile.src = "images/water.gif";
     var waterWall = new Image();
     waterWall.src = "images/waterroad.bmp";
+
     var levels = [
         [
             [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
@@ -42,6 +43,24 @@ function main(endGameMsg) {
         ],
     ]
     var gameField = levels[0];
+
+
+    var gameField = [    //----------------------------> X RASTE HORIZONTALNO
+        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],    //  |
+        [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 'X', 1],  //  |
+        [1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1],    //  |
+        [1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1],    //  |
+        [1, 0, 0, 0, 0, 0, 0, 'b', 0, 0, 0, 0, 0, 0, 0, 1],    //  |
+        [1, 0, 1, 0, 0, 0, 0, 1, 'H', 1, 1, 1, 1, 1, 0, 1],    //  |  Y RASTE NADOLO
+        [1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1],    //  |
+        [1, 'X', 1, 0, 0, 0, 0, 'w', 0, 0, 0, 0, 'b', 0, 0, 1],    //  |
+        [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1],    //  |
+        [1, 0, 0, 0, 0, 'b', 0, 0, 0, 0, 0, 0, 0, 1, 0, 1],    //  |
+        [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1],
+        [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 'X', 1],//  |
+        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]     //  |
+    ];
+
     var blockWidth = canvas.height / gameField.length;
     var blockHeight = canvas.width / gameField[0].length;
 
@@ -50,7 +69,9 @@ function main(endGameMsg) {
 
 //DRAW MAIN MENU
 
-    if(endGameMsg === 'lose'){
+
+    if (endGameMsg === 'lose') {
+
         ctx.drawImage(looser, 0, 0);
         (window).addEventListener('click', function (event) {
             if (event.clientX >= 276 && event.clientX <= 509)
@@ -58,7 +79,11 @@ function main(endGameMsg) {
                     init();
                 }
         });
-    }else if (endGameMsg === 'win'){
+
+    }
+
+    else if (endGameMsg == 'win') {
+
         ctx.drawImage(winner, 0, 0);
         (window).addEventListener('click', function (event) {
             if (event.clientX >= 276 && event.clientX <= 509)
@@ -66,7 +91,7 @@ function main(endGameMsg) {
                     init();
                 }
         });
-    }else {
+    } else {
         ctx.drawImage(startSrc, 0, 0);
         (window).addEventListener('click', function (event) {
             if (event.clientX >= 276 && event.clientX <= 509)
@@ -75,7 +100,6 @@ function main(endGameMsg) {
                 }
         });
     }
-
 
 
 //BUTTON CLICKED
