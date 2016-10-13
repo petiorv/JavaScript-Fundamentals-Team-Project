@@ -3,10 +3,11 @@ function main(endGameMsg, level) {
     //DEFINE ALL GLOBAL VARIABLES
     var canvas = document.getElementById('canvas');
     var ctx = canvas.getContext('2d');
-    var score = 0;
-    var startSrc = new Image();
-    var looser = new Image();
-    var winner = new Image();
+    let startSrc = new Image();
+    let looser = new Image();
+    let winner = new Image();
+    let beatTheGameScreen = new Image();
+    beatTheGameScreen.src = 'images/beatthegame.jpg'
     winner.src = 'images/levelWin.jpg';
     looser.src = 'images/looser.jpg';
     startSrc.src = 'images/startScreen.jpg';
@@ -38,7 +39,6 @@ function main(endGameMsg, level) {
             [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1],
             [1, 0, 0, 0, 0, 'b', 0, 0, 0, 0, 0, 0, 0, 1, 0, 1],
             [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1],
-            [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1],
             [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
         ],
         [[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
@@ -47,28 +47,52 @@ function main(endGameMsg, level) {
             [1, 0, 1, 0, 0, 0, 0, 1, 1, 1, 1, 0, 1, 0, 1, 1],
             [1, 0, 1, 0, 0, 1, 'b', 1, 1, 1, 1, 0, 1, 0, 1, 1],
             [1, 0, 1, 0, 1, 'w', 0, 'w', 'H', 1, 1, 0, 0, 0, 1, 1],
-            [1, 0,'b', 0, 1, 'w', 0, 'w', 0, 0, 1, 0, 0, 0, 1, 1],
+            [1, 0, 'b', 0, 1, 'w', 0, 'w', 0, 0, 1, 0, 0, 0, 1, 1],
             [1, 0, 'w', 1, 1, 0, 0, 0, 0, 'b', 1, 0, 0, 'w', 'w', 1],
             [1, 0, 'w', 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 'w', 'w', 1],
             [1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 'w', 'w', 1],
             [1, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
             [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]],
-    ];
-    var gameField = levels[0];
 
-    var blockWidth = canvas.height / gameField.length;
-    var blockHeight = canvas.width / gameField[0].length;
+            [[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+         [1, 1, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1],
+         [1, 1, 0, 1, 0, 1, 0, 'w', 'w', 'w', 0, 0, 'b', 0, 1, 1],
+         [1, 1, 0, 'b', 0, 1, 0, 1, 1, 1, 1, 0, 1, 0, 1, 1],
+         [1, 1, 0, 1, 0, 0, '0', 1, 1, 1, 1, 0, 1, 0, 1, 1],
+         [1, 'w', 0, 1, 0, 0, 'w', 0, "H", 1, 1, 0, 0, 0, 0, 1],
+         [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1, 1],
+         [1, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1],
+         [1, 1, 0, 1, 1, 1, 0, 0, 0, 1, 1, 1, 1, 0, 0, 1],
+         [1, 1, 0, 'b', 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1],
+         [1, 1, 0, 0, 0, 1, 'X', 'X', 'X', 1, 1, 1, 1, 1, 1, 1],
+         [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]],
+
+         [[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+         [1, 'X', 'X', 'w', 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1],
+         [1, 'X', 'X', 0, 0, 1, 0, 0, 0, 0, 0, 'b', 0, 0, 1, 1],
+         [1, 0, 0, 'w', 0, 1, 0, 1, 1, 1, 1, 0, 1, 0, 1, 1],
+         [1, 1, 0, 1, 0, 0, 0, 1, 1, 1, 1, 0, 1, 0, 1, 1],
+         [1, 1, 0, 1, 0, 0, 0, 0, 'H', 1, 1, 0, 'w', 0, 0, 1],
+         [1, 1, 0, 1, 1, 0, 0, 0, 0, 0, 1, 0, 1, 1, 0, 1],
+         [1, 1, 0, 1, 1, 0, 0, 0, 0, 'b', 0, 0, 0, 0, 0, 1],
+         [1, 1, 0, 1, 1, 0, 0, 0, 0, 1, 1, 0, 1, 'b', 0, 1],
+         [1, 1, 0, 0, 0, 'b', 0, 'w', 0, 0, 0, 0, 1, 0, 0, 1],
+         [1, 0, 0, 0, 'w', 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+         [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
+         ]
+    ];
+
+    var blockWidth = canvas.height / 12;//gameField.length;
+    var blockHeight = canvas.width / 16;//gameField[0].length;
 
 //END DEFINE GLOBAL VARABLES
-    console.log(endGameMsg);
 
 //DRAW MAIN MENU
 
 
-    if (endGameMsg === 'lose') {
+    if (endGameMsg == 'lose') {
+        ctx.drawImage(startSrc, 0, 0);
         location.reload()
-        level = 0;
-        ctx.drawImage(looser, 0, 0);
         (window).addEventListener('click', function (event) {
             if (event.clientX >= 276 && event.clientX <= 509)
                 if (event.clientY >= 244 && event.clientY <= 327) {
@@ -78,25 +102,26 @@ function main(endGameMsg, level) {
 
     }
 
-    else if (endGameMsg == 'win') {
-
+    else if (endGameMsg == 'win' && level != 4) {
         ctx.drawImage(winner, 0, 0);
+
         (window).addEventListener('click', function (event) {
             if (event.clientX >= 276 && event.clientX <= 509)
                 if (event.clientY >= 244 && event.clientY <= 327) {
-                    console.log(level);
-                    gameField = levels[level];
-                    console.log(gameField[level]);
+                    ctx.clearRect(0, 0, 800, 600);
                     init(level);
-                                    }
+                }
+            if (event.clientX >= 231 && event.clientX <= 579)
+                if (event.clientY >= 370 && event.clientY <= 456) {
+                    init(--level);
+                }
         });
-        if (event.clientX >= 276 && event.clientX <= 509)
-            if (event.clientY >= 340 && event.clientY <= 430) {
-                init(level);
-            }
     }
-     else {
-         level = 0;
+    else if (endGameMsg == 'win' && level == 4) {
+        ctx.drawImage(beatTheGameScreen, 0, 0);
+    }
+    else {
+        level = 0;
         ctx.drawImage(startSrc, 0, 0);
         (window).addEventListener('click', function (event) {
             if (event.clientX >= 276 && event.clientX <= 509)
@@ -107,26 +132,31 @@ function main(endGameMsg, level) {
     }
 
 
-//BUTTON CLICKED
-
     function init(level) {
+        let gameField = levels[level];
+        console.log(gameField);
         let nextLvl = Number(level) + 1;
+        let movesMade = 0;
         //DEFINE CHARACTER STARTING POSITION AND STARTER DIRECTION
         var charPos = {
-            x: 4, // NAGORE NADOLU
-            y: 8 // NALQVO NADQSNO
+            x: 4,
+            y: 8
         };
         var direction = 'D';
-
         render(direction);
-        update();
+        if (!checkIfWin(gameField))
+            update();
 
 
         function render(direction) {
             ctx.clearRect(0, 0, 800, 600);
-            if (checkIfWin(gameField)) {
-                console.log(nextLvl);
-                main('win', nextLvl);
+            if (checkIfWin(gameField) && movesMade > 1) {
+                setTimeout(win, 200);
+                function win() {
+                    main('win', nextLvl);
+                }
+
+                console.log(gameField);
                 gameField = undefined;
                 return;
             }
@@ -160,7 +190,7 @@ function main(endGameMsg, level) {
                                 ctx.rotate(Math.PI);
                                 break;
                         }
-                        ctx.drawImage(mainCharImg, 0, 0, 64, 64, 0, 0, blockHeight, blockWidth)
+                        ctx.drawImage(mainCharImg, 0, 0, 64, 64, 0, 0, blockHeight, blockWidth);
                         charPos.x = row;
                         charPos.y = col;
                         ctx.restore();
@@ -212,6 +242,7 @@ function main(endGameMsg, level) {
         function update() {
             (window).addEventListener('keydown', function (event) {
                 var nextTiles = {};
+                movesMade++;
                 switch (event.code) {
                     case 'ArrowLeft' :
                         nextTiles = checkNextTiles(charPos.x, charPos.y, 'L');
@@ -233,7 +264,6 @@ function main(endGameMsg, level) {
                             gameField[charPos.x][charPos.y] = 0;
                             gameField[charPos.x][charPos.y - 1] = 'H';
                             gameField[charPos.x][charPos.y - 2] = 0;
-                            score += 50;
                             direction = 'L';
                             render(direction);
                         }
@@ -267,7 +297,6 @@ function main(endGameMsg, level) {
                             gameField[charPos.x][charPos.y] = 0;
                             gameField[charPos.x][charPos.y + 1] = 'H';
                             gameField[charPos.x][charPos.y + 2] = 0;
-                            score += 50;
                             direction = 'R';
                             render(direction);
                         }
@@ -302,7 +331,6 @@ function main(endGameMsg, level) {
                             gameField[charPos.x][charPos.y] = 0;
                             gameField[charPos.x + 1][charPos.y] = 'H';
                             gameField[charPos.x + 2][charPos.y] = 0;
-                            score += 50;
                             direction = 'D';
                             render(direction);
                         }
@@ -337,7 +365,6 @@ function main(endGameMsg, level) {
                             gameField[charPos.x][charPos.y] = 0;
                             gameField[charPos.x - 1][charPos.y] = 'H';
                             gameField[charPos.x - 2][charPos.y] = 0;
-                            score += 50;
                             direction = 'U';
                             render(direction);
                         }
@@ -527,8 +554,6 @@ function main(endGameMsg, level) {
                     }
                     return nextTilesObj;
                 }  //PROVERQVA SLEDVASHTITE POZICII, VRYSHTA OBEKT
-                ctx.font = "40px Georgia";
-                ctx.fillText(`Score : ${score}`, 10, 35);
             });
         }
 
@@ -538,12 +563,11 @@ function main(endGameMsg, level) {
 
                     ctx.clearRect(0, 0, 800, 600);
 
-                    gameField = undefined;  //TODO FIX STILL RUNNING INIT FUNCTION
-
+                    gameField = undefined;
                     main('lose');
                     break;
             }
+            return;
         }
     }
-
 }
